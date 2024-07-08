@@ -1,0 +1,4 @@
+%{
+  "http_spec": {:hex, :http_spec, "1.1.0", "f37f9216de3ef8290f4f6db65e5d9c6635bcddfc68a3d71534b57ba628b64d24", [:mix], [{:nimble_options, "~> 1.0", [hex: :nimble_options, repo: "hexpm", optional: false]}], "hexpm", "75cbc7056d6a77f741b67ed91df5ac33e4e7bee3222a6d442fb9258f23073f8d"},
+  "nimble_options": {:hex, :nimble_options, "1.1.1", "e3a492d54d85fc3fd7c5baf411d9d2852922f66e69476317787a7b2bb000a61b", [:mix], [], "hexpm", "821b2470ca9442c4b6984882fe9bb0389371b8ddec4d45a9504f00a66f650b44"},
+}
