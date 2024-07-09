@@ -4,7 +4,7 @@ defmodule AlipayKit.V3 do
 
   ## References
 
-    * [支付宝 V3 协议](https://opendocs.alipay.com/open-v3/053sd1)
+    * [支付宝 OpenAPI V3](https://opendocs.alipay.com/open-v3/053sd1)
 
   """
   @sign_request_opts_definition NimbleOptions.new!(

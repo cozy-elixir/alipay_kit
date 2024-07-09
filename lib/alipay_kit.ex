@@ -1,5 +1,5 @@
 defmodule AlipayKit do
   @moduledoc """
-  Documentation for `AlipayKit`.
+  An SDK kit for Alipay.
   """
 end
