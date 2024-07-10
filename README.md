@@ -1,5 +1,8 @@
 # AlipayKit
 
+[![CI](https://github.com/cozy-elixir/alipay_kit/actions/workflows/ci.yml/badge.svg)](https://github.com/cozy-elixir/alipay_kit/actions/workflows/ci.yml)
+[![Hex.pm](https://img.shields.io/hexpm/v/alipay_kit.svg)](https://hex.pm/packages/alipay_kit)
+
 A kit for Alipay.
 
 ## Installation
