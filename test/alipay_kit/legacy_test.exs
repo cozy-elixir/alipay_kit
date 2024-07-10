@@ -120,6 +120,7 @@ defmodule AlipayKit.LegacyTest do
   end
 
   describe "verify_notification/2" do
+    # credo:disable-for-next-line
     # TODO: test it
   end
 
