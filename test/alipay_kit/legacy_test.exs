@@ -33,17 +33,15 @@ defmodule AlipayKit.LegacyTest do
   describe "sign_params!/2" do
     test "works", %{app_id: app_id, app_private_key: app_private_key} do
       expected_signed_params =
-        "app_id=9021000139603846&biz_content=%7B%22out_trade_no%22%3A%2270501111111S001111119%22%2C%22total_amount%22%3A%229.00%22%2C%22subject%22%3A%22Fresh+air%22%7D&charset=UTF-8&format=JSON&method=alipay.trade.app.pay&sign_type=RSA2&timestamp=2024-07-09+12%3A06%3A08&version=1.0&sign=LvExl19Z6SYUP%2FJfT1ntyqtM%2B2U5KfU4IC0nTRoLN1H8rWs4E5vdwxvJEbKuFUADJ7GKVkIcWv7j41j5rq30hNXp27OQenTitOQfcV73ikrT2FG%2BwQn9DxYqnBN%2Fnu%2BMOwOz27DdVxBOQIedME311%2BmVRCwlqg0QiJxW6TNVd8X1bmQr%2Fk%2Fe6lpd%2Bo5iPrlt7a2%2B45YClH3LeyFqCD%2FreCK%2Fb5U84HteQbYAB317E851q4hI51FlGVvgVl%2BZ7GZAQEJ4%2B9T0F39ahL94B54s2nIKFXeWUeKUH69IZHXf1P2vW1KS%2BXn0aai2QRUcYnqcTFLWef0hqztKvjWr1Zq6PQ%3D%3D"
+        "app_id=9021000139603846&biz_content=%7B%22out_trade_no%22%3A%2270501111111S001111119%22%7D&charset=UTF-8&format=JSON&method=alipay.trade.query&sign_type=RSA2&timestamp=2024-07-09+12%3A06%3A08&version=1.0&sign=CZDOSANYS%2BIxz1FrW6NQ0Jwlr%2B1DxQ6pvaL7zo0vdqa4%2FrP0TT2fWefQu2T9VKsyPovxuS7gl9xCj6pRPgb0MrWRE8%2FOLzdKAEMcib%2Fzoq0avusxStGQbxRriI%2BhXxhKz%2FAev6Hzs8q%2FaD%2BSudVSlRh%2Fb2Mc7r%2FY0Qn1im0sayau2YF%2B%2FxFEj7CuYMuTF8dXnExa%2FjMGWg0J7360UAmXujibVmNEnJVN%2Fowns7No7zMT49z5MYWJSNP%2FZOmvojxd%2F9jE96g5dTQEQDajgV%2BucImyWi4tZq6us4Fbm8lS4zForUZTa1DxYAr9yTAFHezJf1PDeQObomWUv%2B5tk5pIvQ%3D%3D"
 
       assert expected_signed_params ==
                Legacy.sign_params!(
                  %{
                    app_id: app_id,
-                   method: "alipay.trade.app.pay",
+                   method: "alipay.trade.query",
                    biz_content: %{
-                     out_trade_no: "70501111111S001111119",
-                     total_amount: "9.00",
-                     subject: "Fresh air"
+                     out_trade_no: "70501111111S001111119"
                    },
                    timestamp: "2024-07-09 12:06:08"
                  },
