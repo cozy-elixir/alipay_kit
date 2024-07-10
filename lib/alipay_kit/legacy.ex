@@ -1,6 +1,9 @@
 defmodule AlipayKit.Legacy do
   @moduledoc """
-  A kit for Alipay Legacy API.
+  A kit for Alipay legacy API.
+
+  > I don't know what they named this API because that part of the
+  > documentation is a bit confusing. Let's call it "legacy".
 
   > Although the OpenAPI V3 is released, some features are still retained in
   > the legacy API.
@@ -59,7 +62,10 @@ defmodule AlipayKit.Legacy do
   > Don't miss the `Content-Type` header when sending POST request, or the Alipay
   > will sent a bad response back.
 
-  ## References
+  ## More
+
+  I don't want to repeat what the official documentation already covers. For
+  more information, please refer to the following materials:
 
     * [支付宝 Legacy API](https://opendocs.alipay.com/common/02nebq)
 
@@ -248,13 +254,13 @@ defmodule AlipayKit.Legacy do
   end
 
   @doc """
-  Verifies response returned by Alipay, and returns the verified `*_response`
-  section of body.
+  Verifies a response returned by Alipay, and returns the verified and decoded
+  `*_response` section of body.
 
   ## Examples
 
       // send a request to Alipay service, and get a response
-      response = HTTPSpec.Response.build!([
+      response = HTTPSpec.Response.new!([
         body: "...",
         // ...
       ])
@@ -269,7 +275,7 @@ defmodule AlipayKit.Legacy do
 
   """
   @spec verify_response(HTTPSpec.Response.t(), verify_response_opts()) ::
-          {:ok, map()} | {:error, :bad_format | :bad_signature}
+          {:ok, map()} | {:error, :bad_response | :bad_signature}
   def verify_response(%HTTPSpec.Response{} = response, opts) do
     opts = NimbleOptions.validate!(opts, @verify_response_opts_definition)
     alipay_public_key = Keyword.fetch!(opts, :alipay_public_key)
@@ -285,18 +291,18 @@ defmodule AlipayKit.Legacy do
         do: {:ok, Map.fetch!(body, key)},
         else: {:error, :bad_signature}
     else
-      _ -> {:error, :bad_format}
+      _ -> {:error, :bad_response}
     end
   end
 
   @doc """
-  Verifies notification request issued by Alipay, and returns the verified
+  Verifies a notification request issued by Alipay, and returns the verified
   payload.
 
   ## Examples
 
       // send a request to Alipay service, and get a response
-      request = HTTPSpec.Request.build!([
+      request = HTTPSpec.Request.new!([
         query: "...",
         // ...
       ])

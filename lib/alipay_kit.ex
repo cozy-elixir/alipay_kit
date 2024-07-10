@@ -1,6 +1,6 @@
 defmodule AlipayKit do
   @moduledoc """
-  An SDK kit for Alipay.
+  A kit for Alipay.
 
   > This package is built by following my proposal -
   > [Ship utilities for building platform SDKs](https://github.com/cozy-elixir/proposals/blob/main/ship-utilities-for-building-platform-sdks.md).

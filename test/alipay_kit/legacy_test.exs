@@ -55,7 +55,7 @@ defmodule AlipayKit.LegacyTest do
   describe "verify_response/2" do
     test "returns :ok when everything's fine", %{alipay_public_key: alipay_public_key} do
       response =
-        HTTPSpec.Response.build!(
+        HTTPSpec.Response.new!(
           status: 200,
           # An example body extracted from the response of an `alipay.trade.query` request.
           body:
@@ -80,11 +80,11 @@ defmodule AlipayKit.LegacyTest do
                )
     end
 
-    test "returns {:error, :bad_format} when the response body is in bad format", %{
+    test "returns {:error, :bad_response} when the response body is in bad format", %{
       alipay_public_key: alipay_public_key
     } do
       response =
-        HTTPSpec.Response.build!(
+        HTTPSpec.Response.new!(
           status: 200,
           # An example body extracted from the response of an `alipay.trade.query` request.
           # But, the order of the keys is adjusted.
@@ -92,7 +92,7 @@ defmodule AlipayKit.LegacyTest do
             "{\"sign\":\"o6SzVq8LCPp5L5sP61B23QRrkZwjMGlTYojIK6r0wph11h7kbkHE1rgdYgFNRaLYmxqs7bGkFit65Uk2CtT2NaMe4SjydIZzvu8774RPv8GFeTg6PFvKOsb6HUgFWuGEd8DN0LJYJqQrg5QXV+G8FYwNw4Sx+pqSVjq3c9eVdb5dwPhObfBHjao2LKs3T19wZR4ZNp3clhZOknsuT72vkogI/3yTOLsc3U0fSTrlRXKP7p5X6hd7u9MIJk2w3obOAFHs++yUmS0QkhcdxgICzajf/Ppzy/ssL7OohJHbiHk8JaBeH6yBgxmNMzoyVP4fZs7W/ZUL9zJli0jh8dxPUg==\",\"alipay_trade_query_response\":{\"msg\":\"Business Failed\",\"code\":\"40004\",\"out_trade_no\":\"70501111111S001111120\",\"sub_msg\":\"交易不存在\",\"sub_code\":\"ACQ.TRADE_NOT_EXIST\",\"receipt_amount\":\"0.00\",\"point_amount\":\"0.00\",\"buyer_pay_amount\":\"0.00\",\"invoice_amount\":\"0.00\"}}"
         )
 
-      assert {:error, :bad_format} ==
+      assert {:error, :bad_response} ==
                Legacy.verify_response(response,
                  alipay_public_key: alipay_public_key,
                  sign_type: :RSA2
@@ -103,7 +103,7 @@ defmodule AlipayKit.LegacyTest do
       alipay_public_key: alipay_public_key
     } do
       response =
-        HTTPSpec.Response.build!(
+        HTTPSpec.Response.new!(
           status: 200,
           # An example body extracted from the response of an `alipay.trade.query` request.
           # But, the data is modified a lit bit.
@@ -151,7 +151,7 @@ defmodule AlipayKit.LegacyTest do
         Finch.build(:get, "#{endpoint}?#{signed_params}")
         |> Finch.request(MyFinch)
 
-      response = HTTPSpec.Response.build!(status: status, body: body, headers: headers)
+      response = HTTPSpec.Response.new!(status: status, body: body, headers: headers)
 
       assert {:ok, _} =
                AlipayKit.Legacy.verify_response(response,
@@ -173,7 +173,7 @@ defmodule AlipayKit.LegacyTest do
         )
         |> Finch.request(MyFinch)
 
-      response = HTTPSpec.Response.build!(status: status, body: body, headers: headers)
+      response = HTTPSpec.Response.new!(status: status, body: body, headers: headers)
 
       assert {:ok, _} =
                AlipayKit.Legacy.verify_response(response,

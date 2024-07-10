@@ -2,7 +2,7 @@ defmodule AlipayKit.MixProject do
   use Mix.Project
 
   @version "0.1.0"
-  @description "An SDK kit for Alipay."
+  @description "A kit for Alipay."
   @source_url "https://github.com/cozy-elixir/alipay_kit"
 
   def project do
@@ -33,7 +33,7 @@ defmodule AlipayKit.MixProject do
     [
       {:nimble_options, "~> 1.0"},
       {:jxon, "~> 0.1"},
-      {:http_spec, "~> 1.1"},
+      {:http_spec, "~> 2.0"},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
       {:finch, ">= 0.0.0", only: [:dev, :test]},
       {:ex_check, ">= 0.0.0", only: [:dev], runtime: false},

@@ -1,6 +1,6 @@
 # AlipayKit
 
-An SDK kit for Alipay.
+A kit for Alipay.
 
 ## Installation
 
