@@ -5,6 +5,11 @@
 
 A kit for Alipay.
 
+## Features
+
+- Not tightly coupled with a specific HTTP client (Built on top of [http_spec](https://hex.pm/packages/http_spec))
+- Only includes basic signing and signature verification functions
+
 ## Installation
 
 Add `:alipay_kit` to the list of dependencies in `mix.exs`:
