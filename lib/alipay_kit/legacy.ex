@@ -330,6 +330,8 @@ defmodule AlipayKit.Legacy do
   """
   @spec verify_notification(HTTPSpec.Request.t() | map(), verify_notification_opts()) ::
           {:ok, map()} | {:error, :bad_signature}
+  def verify_notification(request_or_params, opts)
+
   def verify_notification(%HTTPSpec.Request{method: method} = request, opts)
       when method in [:get, "GET"] do
     opts = NimbleOptions.validate!(opts, @verify_notification_opts_definition)
