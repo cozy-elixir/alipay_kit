@@ -301,7 +301,7 @@ defmodule AlipayKit.Legacy do
 
   ## Examples
 
-      // send a request to Alipay service, and get a response
+      // send a request to Alipay service, and you'll get a notification request
       request = HTTPSpec.Request.new!([
         query: "...",
         // ...
@@ -311,18 +311,51 @@ defmodule AlipayKit.Legacy do
         alipay_public_key: "your alipay public key"
       ])
 
+  If you can get the params, you can use it directly:
+
+      params = %{
+        "sign_type" => "RSA2",
+        "sign" => "...",
+        # ...
+      }
+
+      AlipayKit.Legacy.verify_notification(params, [
+        alipay_public_key: "your alipay public key"
+      ])
+
   ## References
 
     * [自行实现验签](https://opendocs.alipay.com/common/02mse7)
 
   """
-  @spec verify_notification(HTTPSpec.Request.t(), verify_notification_opts()) ::
+  @spec verify_notification(HTTPSpec.Request.t() | map(), verify_notification_opts()) ::
           {:ok, map()} | {:error, :bad_signature}
-  def verify_notification(%HTTPSpec.Request{} = request, opts) do
+  def verify_notification(%HTTPSpec.Request{method: method} = request, opts)
+      when method in [:get, "GET"] do
     opts = NimbleOptions.validate!(opts, @verify_notification_opts_definition)
     alipay_public_key = Keyword.fetch!(opts, :alipay_public_key)
 
     params = URI.decode_query(request.query, %{}, :rfc3986)
+    do_verify_notification(params, alipay_public_key)
+  end
+
+  def verify_notification(%HTTPSpec.Request{method: method} = request, opts)
+      when method in [:post, "POST"] do
+    opts = NimbleOptions.validate!(opts, @verify_notification_opts_definition)
+    alipay_public_key = Keyword.fetch!(opts, :alipay_public_key)
+
+    params = URI.decode_query(request.body, %{}, :www_form)
+    do_verify_notification(params, alipay_public_key)
+  end
+
+  def verify_notification(params, opts) when is_map(params) do
+    opts = NimbleOptions.validate!(opts, @verify_notification_opts_definition)
+    alipay_public_key = Keyword.fetch!(opts, :alipay_public_key)
+
+    do_verify_notification(params, alipay_public_key)
+  end
+
+  defp do_verify_notification(params, alipay_public_key) do
     sign_type = params |> Map.fetch!("sign_type") |> String.to_existing_atom()
     signature = Map.fetch!(params, "sign")
 
