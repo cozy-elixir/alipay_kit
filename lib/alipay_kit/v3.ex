@@ -165,7 +165,7 @@ defmodule AlipayKit.V3 do
 
   """
   @spec verify_response(HTTPSpec.Response.t(), verify_response_opts()) ::
-          {:ok, map()} | {:error, :bad_response | :bad_signature}
+          :ok | {:error, :bad_response | :bad_signature}
   def verify_response(%HTTPSpec.Response{} = response, opts) do
     opts = NimbleOptions.validate!(opts, @verify_response_opts_definition)
     alipay_public_key = Keyword.fetch!(opts, :alipay_public_key)
@@ -182,7 +182,7 @@ defmodule AlipayKit.V3 do
         )
 
       if verify?(sign_type, string_to_sign, alipay_public_key, signature),
-        do: {:ok, json_decode!(response.body)},
+        do: :ok,
         else: {:error, :bad_signature}
     else
       _ ->
@@ -263,11 +263,6 @@ defmodule AlipayKit.V3 do
 
   defp random_string do
     :crypto.strong_rand_bytes(16) |> Base.encode16(case: :lower)
-  end
-
-  defp json_decode!(binary) when is_binary(binary) do
-    {:ok, term} = JXON.decode(binary)
-    term
   end
 
   defp timestamp do

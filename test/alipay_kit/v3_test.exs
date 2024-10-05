@@ -99,6 +99,8 @@ defmodule AlipayKit.V3Test do
         ]
       }
 
+      assert :ok = V3.verify_response(response, alipay_public_key: alipay_public_key)
+
       assert {:ok,
               %{
                 "buyer_pay_amount" => "0.00",
@@ -108,8 +110,7 @@ defmodule AlipayKit.V3Test do
                 "out_trade_no" => "70501111111S001111120",
                 "point_amount" => "0.00",
                 "receipt_amount" => "0.00"
-              }} =
-               V3.verify_response(response, alipay_public_key: alipay_public_key)
+              }} = JXON.decode(response.body)
     end
   end
 
@@ -155,7 +156,7 @@ defmodule AlipayKit.V3Test do
           headers: headers
         )
 
-      assert {:ok, _} = V3.verify_response(response, alipay_public_key: alipay_public_key)
+      assert :ok = V3.verify_response(response, alipay_public_key: alipay_public_key)
     end
   end
 

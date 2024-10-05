@@ -4,6 +4,7 @@ defmodule AlipayKit.MixProject do
   @version "0.2.0"
   @description "A kit for Alipay."
   @source_url "https://github.com/cozy-elixir/alipay_kit"
+  @changelog_url "https://github.com/cozy-elixir/alipay_kit/blob/v#{@version}/CHANGELOG.md"
 
   def project do
     [
@@ -46,7 +47,7 @@ defmodule AlipayKit.MixProject do
 
   defp docs do
     [
-      extras: ["README.md"],
+      extras: ["README.md", "CHANGELOG.md"],
       source_url: @source_url,
       source_ref: "v#{@version}"
     ]
@@ -55,7 +56,10 @@ defmodule AlipayKit.MixProject do
   defp package do
     [
       licenses: ["Apache-2.0"],
-      links: %{GitHub: @source_url}
+      links: %{
+        GitHub: @source_url,
+        Changelog: @changelog_url
+      }
     ]
   end
 
