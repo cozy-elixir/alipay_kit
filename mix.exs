@@ -1,7 +1,7 @@
 defmodule AlipayKit.MixProject do
   use Mix.Project
 
-  @version "0.3.0"
+  @version "1.0.0"
   @description "A kit for Alipay."
   @source_url "https://github.com/cozy-elixir/alipay_kit"
   @changelog_url "https://github.com/cozy-elixir/alipay_kit/blob/v#{@version}/CHANGELOG.md"
