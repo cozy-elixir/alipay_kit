@@ -51,7 +51,7 @@ defmodule AlipayKit.V3Test do
           body: json_encode!(%{out_trade_no: "70501111111S001111120"})
         )
 
-      assert %HTTPSpec.Request{
+      assert HTTPSpec.Request.new!(%{
                method: :post,
                scheme: :https,
                host: "openapi-sandbox.dl.alipaydev.com",
@@ -66,7 +66,7 @@ defmodule AlipayKit.V3Test do
                   "ALIPAY-SHA256withRSA app_id=9021000139603846,nonce=517bbe132c0b8634b0d2f3b8c6b4c3d0,timestamp=1720580056525,sign=NcoqUaYawgSBAj3Yy41Sm9W9EZodAin5K8tC8Lvftk2D3rmlYOUFV5klEKleSD5uHb8GgMEeysCg2RIedJW9rYpA3O2cpRfy4bmXop674fcO0Y98RNyb2u+yPDzX84dmhsAxK/x2s8mj43az1/PUbNXHEpxpsu9LUW9dd5Lrkjo7vD6xuE3lyj35x7yA2wkShV7bJTVCCAFc9CxfIvSntaWNroy2TmuG9Z/GWVzcwEUVuajFOVfMnRcg/XxY1yVfa9o9wW3sW8Djt/7gfkqF+vtXgl477zxMNGEF8mdTbb3rPKusYrOSQYFVXiiyVFFCBcGas4vAa69HFn7EIXrZ/g=="}
                ],
                body: "{\"out_trade_no\":\"70501111111S001111120\"}"
-             } ==
+             }) ==
                V3.sign_request!(request,
                  app_id: app_id,
                  app_private_key: app_private_key,
@@ -78,26 +78,27 @@ defmodule AlipayKit.V3Test do
 
   describe "verify_response/2" do
     test "works", %{alipay_public_key: alipay_public_key} do
-      response = %HTTPSpec.Response{
-        status: 400,
-        body:
-          "{\"out_trade_no\":\"70501111111S001111120\",\"code\":\"ACQ.TRADE_NOT_EXIST\",\"receipt_amount\":\"0.00\",\"message\":\"交易不存在\",\"point_amount\":\"0.00\",\"buyer_pay_amount\":\"0.00\",\"invoice_amount\":\"0.00\"}",
-        headers: [
-          {"server", "Tengine/2.1.0"},
-          {"date", "Wed, 10 Jul 2024 02:59:35 GMT"},
-          {"content-type", "application/json;charset=UTF-8"},
-          {"content-length", "193"},
-          {"connection", "keep-alive"},
-          {"set-cookie", "JSESSIONID=FA5E427D30AFC9E2BAB78529EC3B9406; Path=/; HttpOnly"},
-          {"alipay-trace-id", "060063f4172058037584134747918"},
-          {"gateway_route_forward_type", "rpc_invoke_route"},
-          {"alipay-nonce", "d5553f1d2304d354784457f7f6a3cfb2"},
-          {"alipay-timestamp", "1720580375932"},
-          {"alipay-signature",
-           "Tp67Z5XBikhmF28kMBVR/OCFn+mqnlqnsCudUGS/hlZiV1j1CXkr0j4QENrUfm2m993iSGSZESoAOPCasp9XppQy4PKQsNE+vG840HFLA7eGTKWjzNVs3FO/JozNQlnm7oZcDPP16scvAF5ArmKUX571sv642kfZ3OZupVktye2reKiEUQQOxa7PJKlsei8mcjeT++DARR6wwyVNcM+WniHDOB1n9EW+scz9ROtkgsd56D0vgVaqFqmyIlkwqRpq6XF9lyf0nuFXAvQW7z6nlXwIZCkpu1kGMzlT48FuI66BPaNJWRM7/Q6eZoyNL+kBXFC06kMUg3XZh9eeXQj1VA=="},
-          {"via", "spanner-13.cz01a.test.alipay.net[400],6.0.99.244:80[400]"}
-        ]
-      }
+      response =
+        HTTPSpec.Response.new!(%{
+          status: 400,
+          body:
+            "{\"out_trade_no\":\"70501111111S001111120\",\"code\":\"ACQ.TRADE_NOT_EXIST\",\"receipt_amount\":\"0.00\",\"message\":\"交易不存在\",\"point_amount\":\"0.00\",\"buyer_pay_amount\":\"0.00\",\"invoice_amount\":\"0.00\"}",
+          headers: [
+            {"server", "Tengine/2.1.0"},
+            {"date", "Wed, 10 Jul 2024 02:59:35 GMT"},
+            {"content-type", "application/json;charset=UTF-8"},
+            {"content-length", "193"},
+            {"connection", "keep-alive"},
+            {"set-cookie", "JSESSIONID=FA5E427D30AFC9E2BAB78529EC3B9406; Path=/; HttpOnly"},
+            {"alipay-trace-id", "060063f4172058037584134747918"},
+            {"gateway_route_forward_type", "rpc_invoke_route"},
+            {"alipay-nonce", "d5553f1d2304d354784457f7f6a3cfb2"},
+            {"alipay-timestamp", "1720580375932"},
+            {"alipay-signature",
+             "Tp67Z5XBikhmF28kMBVR/OCFn+mqnlqnsCudUGS/hlZiV1j1CXkr0j4QENrUfm2m993iSGSZESoAOPCasp9XppQy4PKQsNE+vG840HFLA7eGTKWjzNVs3FO/JozNQlnm7oZcDPP16scvAF5ArmKUX571sv642kfZ3OZupVktye2reKiEUQQOxa7PJKlsei8mcjeT++DARR6wwyVNcM+WniHDOB1n9EW+scz9ROtkgsd56D0vgVaqFqmyIlkwqRpq6XF9lyf0nuFXAvQW7z6nlXwIZCkpu1kGMzlT48FuI66BPaNJWRM7/Q6eZoyNL+kBXFC06kMUg3XZh9eeXQj1VA=="},
+            {"via", "spanner-13.cz01a.test.alipay.net[400],6.0.99.244:80[400]"}
+          ]
+        })
 
       assert :ok = V3.verify_response(response, alipay_public_key: alipay_public_key)
 

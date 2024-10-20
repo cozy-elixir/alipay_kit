@@ -34,7 +34,7 @@ defmodule AlipayKit.MixProject do
     [
       {:nimble_options, "~> 1.0"},
       {:jxon, "~> 0.1"},
-      {:http_spec, "~> 2.0"},
+      {:http_spec, "~> 3.0"},
       {:jason, ">= 0.0.0", only: [:dev, :test]},
       {:finch, ">= 0.0.0", only: [:dev, :test]},
       {:ex_check, ">= 0.0.0", only: [:dev], runtime: false},

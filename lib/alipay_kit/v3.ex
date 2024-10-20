@@ -153,7 +153,7 @@ defmodule AlipayKit.V3 do
     string_to_sign = build_string_to_sign(request, auth_string)
     signature = sign(string_to_sign, opts)
     authorization = "ALIPAY-#{sign_type} #{auth_string},sign=#{signature}"
-    HTTPSpec.Request.put_header(request, "authorization", authorization)
+    HTTPSpec.Header.put_header(request, "authorization", authorization)
   end
 
   @doc """
@@ -171,9 +171,9 @@ defmodule AlipayKit.V3 do
     alipay_public_key = Keyword.fetch!(opts, :alipay_public_key)
     sign_type = Keyword.fetch!(opts, :sign_type)
 
-    with [timestamp] <- HTTPSpec.Response.get_header(response, "alipay-timestamp"),
-         [nonce] <- HTTPSpec.Response.get_header(response, "alipay-nonce"),
-         [signature] <- HTTPSpec.Response.get_header(response, "alipay-signature") do
+    with [timestamp] <- HTTPSpec.Header.get_header(response, "alipay-timestamp"),
+         [nonce] <- HTTPSpec.Header.get_header(response, "alipay-nonce"),
+         [signature] <- HTTPSpec.Header.get_header(response, "alipay-signature") do
       string_to_sign =
         Enum.map_join(
           [timestamp, nonce, response.body],
